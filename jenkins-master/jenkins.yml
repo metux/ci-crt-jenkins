@@ -45,7 +45,7 @@ unclassified:
           modernSCM:
             scm:
               git:
-                remote: "https://github.com/ci-rt/jenkins-cirt-libs"
+                remote: "https://github.com/metux/jenkins-cirt-libs"
   location:
     adminAddress: "info@metux.net"
     url: "http://jenkins:8080/"
