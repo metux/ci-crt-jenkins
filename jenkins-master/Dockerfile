@@ -1,4 +1,7 @@
+
+## FIXME: this image is really huge - we should build a smaller one
 FROM jenkins/jenkins
+
 USER root
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 ENV JENKINS_USER admin
@@ -23,9 +26,32 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
         nullmailer \
         virtinst
 
-RUN install-plugins.sh workflow-api pipeline-model-definition pipeline-utility-steps build-with-parameters timestamper lockable-resources ssh-slaves email-ext warnings git configuration-as-code configuration-as-code-support job-dsl jdk-tool
+RUN install-plugins.sh \
+        workflow-api \
+        pipeline-model-definition \
+        pipeline-utility-steps \
+        build-with-parameters \
+        timestamper \
+        lockable-resources \
+        ssh-slaves \
+        email-ext \
+        warnings \
+        git \
+        configuration-as-code \
+        configuration-as-code-support \
+        job-dsl \
+        jdk-tool \
+        docker-plugin
+
 ADD libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
 ADD init.sh /usr/local/bin/init.sh
 COPY default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
 COPY jenkins.yml /etc/jenkins/jenkins.yml
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/init.sh"]
+
+## install docker upstream
+## FIXME: use dist packages instead
+RUN curl -fsSL https://get.docker.com/ | sh
+
+## give jenkins access to docker
+RUN usermod -a -G docker jenkins
