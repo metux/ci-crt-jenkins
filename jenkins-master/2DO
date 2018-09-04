@@ -1,0 +1,7 @@
+
+* make /var/lib/apt/lists a separate volume in order to not putting it into the main image
+* pluggable extra init scripts (eg. start extra services)
+* drop all X11 stuff (eg. use headless jre)
+* drop all systemd stuff --> not needed
+* put unpacked war into a separate volume or tmpfs
+* why unpacked war at all ?
