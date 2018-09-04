@@ -17,4 +17,6 @@ run:
             -v "/var/run/docker.sock:/var/run/docker.sock" \
             -v "$(DOCKER_JENKINS_VOLUME):/var/jenkins_home" \
             -v "$(DOCKER_PSQL_VOLUME):/var/lib/postgresql" \
+            --mount type=tmpfs,destination=/var/jenkins_home/war \
+            --mount type=tmpfs,destination=/var/jenkins_home/plugins \
             $(DOCKER_TAG)

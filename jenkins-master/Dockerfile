@@ -6,8 +6,23 @@ ENV JENKINS_PASS admin
 ENV CASC_JENKINS_CONFIG /etc/jenkins
 VOLUME /var/lib/postgreql
 RUN useradd libvirt-qemu
+
 ## fixme: maybe we dont need virtinst
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y openssh-client openssh-server bash git python3-junit.xml python3-sqlalchemy python3-psycopg2 python3-numpy python3-pip libvirt0 libvirt-clients postgresql nullmailer virtinst
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
+        openssh-client \
+        openssh-server \
+        bash \
+        git \
+        python3-junit.xml \
+        python3-sqlalchemy \
+        python3-psycopg2 \
+        python3-numpy \
+        python3-pip \
+        libvirt-clients \
+        postgresql \
+        nullmailer \
+        virtinst
+
 RUN install-plugins.sh workflow-api pipeline-model-definition pipeline-utility-steps build-with-parameters timestamper lockable-resources ssh-slaves email-ext warnings git configuration-as-code configuration-as-code-support job-dsl jdk-tool
 ADD libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
 ADD init.sh /usr/local/bin/init.sh
