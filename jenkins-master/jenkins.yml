@@ -23,10 +23,10 @@ jenkins:
 
 jobs:
   - script: >
-      multibranchPipelineJob('configuration-as-code') {
+      multibranchPipelineJob('CIRT-test') {
           branchSources {
               git {
-                  id = 'configuration-as-code'
+                  id = 'cirt-test'
                   remote('https://github.com/ci-rt/test-description.git')
               }
           }
@@ -46,5 +46,5 @@ unclassified:
   mailer:
     adminAddress: info@metux.net
     replyToAddress: info@metux.net
-    smtpHost: smtp.acme.org
-    smtpPort: 4441
+    smtpHost: localhost
+    smtpPort: 25
