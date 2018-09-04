@@ -1,0 +1,50 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code Plugin\n\n"
+  numExecutors: 5
+  scmCheckoutRetryCount: 2
+  mode: NORMAL
+  clouds:
+  - hypervisor:
+      hypervisorHost: "localhost"
+      hypervisorSshPort: 22
+      hypervisorSystemUrl: "system?no_tty=1"
+      hypervisorType: "QEMU"
+      maxOnlineSlaves: 1
+      useNativeJavaConnection: true
+      username: "nekrad"
+  - hypervisor:
+      hypervisorHost: "localhost"
+      hypervisorSshPort: 22
+      hypervisorSystemUrl: "system?no_tty=1"
+      hypervisorType: "R4D"
+      maxOnlineSlaves: 3
+      useNativeJavaConnection: true
+      username: "nekrad"
+
+jobs:
+  - script: >
+      multibranchPipelineJob('configuration-as-code') {
+          branchSources {
+              git {
+                  id = 'configuration-as-code'
+                  remote('https://github.com/ci-rt/test-description.git')
+              }
+          }
+      }
+
+unclassified:
+  globalLibraries:
+    libraries:
+      - name: "CI-RT"
+        defaultVersion: origin/master
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/ci-rt/jenkins-cirt-libs"
+
+  mailer:
+    adminAddress: info@metux.net
+    replyToAddress: info@metux.net
+    smtpHost: smtp.acme.org
+    smtpPort: 4441
