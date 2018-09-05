@@ -22,7 +22,7 @@ pipeline {
         stage('cirt-jenkins-slave-kernel') {
             steps {
                 echo 'Building CI-RT kernel build slave image'
-                sh 'docker build jenkins-slave-kernel -t cirt-jenkins-kernel'
+                sh 'docker build jenkins-slave-kernel -t cirt-jenkins-slave-kernel'
             }
         }
     }
