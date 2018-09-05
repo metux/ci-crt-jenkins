@@ -55,6 +55,16 @@ jobs:
           }
       }
 
+  - script: >
+      multibranchPipelineJob('CIRT-jenkins') {
+          branchSources {
+              git {
+                  id = 'cirt-jenkins'
+                  remote('https://github.com/metux/ci-rt-jenkins.git')
+              }
+          }
+      }
+
 unclassified:
   globalLibraries:
     libraries:
