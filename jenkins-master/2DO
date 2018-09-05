@@ -8,6 +8,7 @@
 * move postgresql to separate container
 * setup R4D VMs
 * bootstrap libvirt-slave.hpi instead of hardcoded bundling
+* configure mail
 
 NOTE:
     * master and docker slaves needs >1 concurrent jobs (otherwise stalls)
