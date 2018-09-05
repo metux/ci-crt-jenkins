@@ -42,12 +42,15 @@ RUN install-plugins.sh \
         job-dsl \
         jdk-tool \
         docker-plugin \
-        cloudbees-folder
+        cloudbees-folder \
+        permissive-script-security
 
-ADD libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
-ADD init.sh /usr/local/bin/init.sh
-COPY default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
-COPY jenkins.yml /etc/jenkins/jenkins.yml
+## FIXME: remove permissive-script-security
+
+ADD prebuilt/libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
+ADD files/init.sh /usr/local/bin/init.sh
+COPY files/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY files/jenkins.yml /etc/jenkins/jenkins.yml
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/init.sh"]
 
 ## install docker upstream

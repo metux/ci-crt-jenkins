@@ -1,5 +1,5 @@
 jenkins:
-  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code Plugin\n\n"
+  systemMessage: "CI-RT jenkins: https://github.com/metux/ci-rt-jenkins.git"
   numExecutors: 5
   scmCheckoutRetryCount: 2
   mode: NORMAL
@@ -32,7 +32,7 @@ jenkins:
           attach:
             user: "jenkins"
         dockerTemplateBase:
-          image: "jenkins-slave-kernel"
+          image: "cirt-jenkins-slave-kernel"
         labelString: "kernel"
         name: "DNG kernel build image"
 #        pullStrategy: PULL_ALWAYS
