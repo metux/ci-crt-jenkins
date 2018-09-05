@@ -46,7 +46,12 @@ jenkins:
 
 jobs:
   - script: >
-      multibranchPipelineJob('CIRT-test') {
+      folder {
+          name "CI-RT"
+      }
+
+  - script: >
+      multibranchPipelineJob('CI-RT/test') {
           branchSources {
               git {
                   id = 'cirt-test'
