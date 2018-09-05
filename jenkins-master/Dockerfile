@@ -41,7 +41,8 @@ RUN install-plugins.sh \
         configuration-as-code-support \
         job-dsl \
         jdk-tool \
-        docker-plugin
+        docker-plugin \
+        cloudbees-folder
 
 ADD libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
 ADD init.sh /usr/local/bin/init.sh
