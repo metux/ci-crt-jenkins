@@ -56,7 +56,7 @@ jobs:
       }
 
   - script: >
-      multibranchPipelineJob('CIRT-jenkins') {
+      multibranchPipelineJob('CI-RT/jenkins') {
           branchSources {
               git {
                   id = 'cirt-jenkins'
