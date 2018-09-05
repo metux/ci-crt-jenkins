@@ -13,10 +13,10 @@ pipeline {
                 sh 'docker build jenkins-master -t cirt-jenkins-master'
             }
         }
-        stage('cirt-jenkins-slave') {
+        stage('cirt-jenkins-slave-base') {
             steps {
-                echo 'Building generic jenkins slave image'
-                sh 'docker build jenkins-slave -t cirt-jenkins-slave'
+                echo 'Building generic jenkins slave base image'
+                sh 'docker build jenkins-slave-base -t cirt-jenkins-slave-base'
             }
         }
         stage('cirt-jenkins-slave-kernel') {
