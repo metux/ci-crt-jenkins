@@ -5,3 +5,9 @@
 * drop all systemd stuff --> not needed
 * put unpacked war into a separate volume or tmpfs
 * why unpacked war at all ?
+* move postgresql to separate container
+* setup R4D VMs
+
+NOTE:
+    * master and docker slaves needs >1 concurrent jobs (otherwise stalls)
+    * dont set to always pull image, otherwise fails if image is only local

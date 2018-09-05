@@ -6,12 +6,16 @@ DOCKER_RUN   ?= $(DOCKER) run
 DOCKER_TAG            ?= jenkins-slave-kernel
 #DOCKER_JENKINS_VOLUME ?= jenkins-cirt-data-9
 #DOCKER_PSQL_VOLUME    ?= jenkins-cirt-psql-4
-#DOCKER_CONTAINER      ?= jenkins1
+DOCKER_CONTAINER      ?= jenkins-slave-kernel-1
 
 build:
 	$(DOCKER_BUILD) . -t $(DOCKER_TAG)
 
-#run:
+run:
+	$(DOCKER_RUN) --rm --name $(DOCKER_CONTAINER) \
+            $(DOCKER_TAG) 123123 one -url http://192.168.122.1:8080/
+
+#runxxx:
 #	$(DOCKER_RUN) --rm --name $(DOCKER_CONTAINER) \
 #            -p 8080:8080 \
 #            -v "/var/run/docker.sock:/var/run/docker.sock" \

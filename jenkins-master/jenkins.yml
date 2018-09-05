@@ -20,6 +20,25 @@ jenkins:
       maxOnlineSlaves: 3
       useNativeJavaConnection: true
       username: "nekrad"
+  - docker:
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          uri: "unix:///var/run/docker.sock"
+        readTimeout: 60
+      name: "docker"
+      templates:
+      - connector:
+          attach:
+            user: "jenkins"
+        dockerTemplateBase:
+          image: "jenkins-slave-kernel"
+        labelString: "kernel"
+        name: "DNG kernel build image"
+#        pullStrategy: PULL_ALWAYS
+        pullTimeout: 300
+        remoteFs: "/home/jenkins"
+
 #  nodes:
 #    - dumb:
 #        labelString: "linux docker test kernel"
@@ -55,3 +74,14 @@ unclassified:
     replyToAddress: info@metux.net
     smtpHost: localhost
     smtpPort: 25
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        - usernamePassword:
+            scope: GLOBAL
+            id: "POSTGRES_CREDENTIALS"
+            username: "jenkins"
+            password: "jenkins001"
+            description: "cirt postgres database"
