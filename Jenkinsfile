@@ -1,5 +1,5 @@
 pipeline {
-    agent docker-host
+    agent { 'docker-host' }
 
     stages {
         stage('sysinfo') {
