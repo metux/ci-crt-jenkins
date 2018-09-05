@@ -35,7 +35,7 @@ jenkins:
           image: "cirt-jenkins-slave-kernel"
         labelString: "kernel"
         name: "DNG kernel build image"
-#        pullStrategy: PULL_ALWAYS
+        pullStrategy: PULL_NEVER
         pullTimeout: 300
         remoteFs: "/home/jenkins"
 
