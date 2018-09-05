@@ -5,7 +5,7 @@ pipeline {
         stage('jenkins-master') {
             steps {
                 echo 'Building jenkins master image'
-                ls -la
+                sh 'ls -la'
             }
         }
         stage('jenkins-slave') {
