@@ -1,4 +1,4 @@
-FROM jenkins-slave-base
+FROM cirt-jenkins-slave-base
 
 ARG KERNEL_REPO=/home/mirror/kernel
 ARG KERNEL_URL=git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git

@@ -3,7 +3,7 @@ DOCKER       ?= docker
 DOCKER_BUILD ?= $(DOCKER) build
 DOCKER_RUN   ?= $(DOCKER) run
 
-DOCKER_TAG            ?= jenkins-cirt
+DOCKER_TAG            ?= cirt-jenkins-master
 DOCKER_JENKINS_VOLUME ?= jenkins-cirt-data-9
 DOCKER_PSQL_VOLUME    ?= jenkins-cirt-psql-4
 DOCKER_CONTAINER      ?= jenkins1
