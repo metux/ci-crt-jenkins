@@ -46,8 +46,9 @@ jenkins:
 
 jobs:
   - script: >
-      folder {
-          name "CI-RT"
+      folder('CI-RT') {
+          displayName('CI-RT')
+          description('CI-RT build infrastructure')
       }
 
   - script: >
