@@ -59,3 +59,8 @@ RUN curl -fsSL https://get.docker.com/ | sh
 
 ## give jenkins access to docker
 RUN usermod -a -G docker jenkins
+
+## install python-junitparser
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
+        python-pip
+RUN pip install junitparser
