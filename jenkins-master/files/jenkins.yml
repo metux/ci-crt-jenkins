@@ -56,7 +56,7 @@ jobs:
           branchSources {
               git {
                   id = 'cirt-test'
-                  remote('https://github.com/ci-rt/test-description.git')
+                  remote('https://github.com/metux/test-description.git')
               }
           }
       }
