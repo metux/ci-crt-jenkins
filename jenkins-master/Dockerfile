@@ -62,5 +62,5 @@ RUN usermod -a -G docker jenkins
 
 ## install python-junitparser
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
-        python-pip
+        python-pip python-setuptools
 RUN pip install junitparser
