@@ -23,7 +23,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
         python3-pip \
         libvirt-clients \
         postgresql \
-        nullmailer \
+        postfix \
         virtinst
 
 RUN install-plugins.sh \

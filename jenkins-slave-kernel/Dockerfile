@@ -39,4 +39,4 @@ ADD files/linutronix.gpg  /etc/apt/trusted.gpg.d/linutronix.gpg
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install --no-install-recommends -y pyjutest \
+    apt-get install --no-install-recommends -y pyjutest lzop \
