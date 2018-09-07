@@ -1,7 +1,7 @@
 #!/bin/bash
 
 /etc/init.d/postgresql start
-/etc/init.d/nullmailer start
+/etc/init.d/postfix start
 
 echo "CREATE USER jenkins CREATEDB PASSWORD 'jenkins001'" | su postgres -c psql
 echo "CREATE DATABASE jenkins OWNER = jenkins" | su postgres -c psql
