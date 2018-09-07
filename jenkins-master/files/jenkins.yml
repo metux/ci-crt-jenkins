@@ -86,9 +86,10 @@ unclassified:
     url: "http://jenkins:8080/"
 
   mailer:
+    smtpHost: 127.0.0.1
     adminAddress: info@metux.net
     replyToAddress: info@metux.net
-    smtpHost: localhost
+#    smtpHost: localhost
     smtpPort: 25
 
 credentials:
