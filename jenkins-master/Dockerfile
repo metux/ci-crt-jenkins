@@ -26,6 +26,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
         postfix \
         virtinst
 
+## install mailer plugin (locally built)
+RUN install-plugins.sh display-url-api
+ADD prebuilt/mailer.hpi /usr/share/jenkins/ref/plugins/mailer.jpi
+
+ADD prebuilt/libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
+
 RUN install-plugins.sh \
         workflow-api \
         pipeline-model-definition \
@@ -43,14 +49,13 @@ RUN install-plugins.sh \
         jdk-tool \
         docker-plugin \
         cloudbees-folder \
-        permissive-script-security
+        permissive-script-security \
+        ${MAILER_PLUGIN_DEPS}
 
 ## FIXME: remove permissive-script-security
 
-ADD prebuilt/libvirt-slave.hpi /usr/share/jenkins/ref/plugins/libvirt-slave.jpi
 ADD files/init.sh /usr/local/bin/init.sh
 COPY files/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
-COPY files/jenkins.yml /etc/jenkins/jenkins.yml
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/init.sh"]
 
 ## install docker upstream
@@ -64,3 +69,5 @@ RUN usermod -a -G docker jenkins
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
         python-pip python-setuptools
 RUN pip install junitparser
+
+COPY files/jenkins.yml /etc/jenkins/jenkins.yml
