@@ -7,9 +7,25 @@ pipeline {
                 echo 'NOTE: need a running docker installation and gnu make'
             }
         }
+
+        stage('cirt-jenkins-mini-build') {
+            steps {
+                echo 'Building jenkins plugin builder image'
+                sh 'docker build 'jenkins-mini-build -t cirt-jenkins-mini-build'
+            }
+        }
+        stage('cirt-jenkins-plugins') {
+            steps {
+                echo 'Building jenkins plugins'
+                sh 'cd jenkins-mini-build && make run'
+                stash includes: 'jenkins-mini-build/work/plugins', name: 'jenkins-plugins'
+            }
+        }
         stage('cirt-jenkins-master') {
             steps {
+                unstash 'jenkins-plugins'
                 echo 'Building jenkins master image'
+                sh 'find -name "*.hpi"'
                 sh 'docker build jenkins-master -t cirt-jenkins-master'
             }
         }

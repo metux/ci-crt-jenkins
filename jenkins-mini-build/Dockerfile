@@ -24,3 +24,4 @@ VOLUME /output
 
 ADD files/build-plugin-mailer.sh /
 ADD files/build-plugin-libvirt-slave.sh /
+ADD files/build-plugins.sh /

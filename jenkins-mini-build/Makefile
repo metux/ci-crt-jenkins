@@ -10,7 +10,7 @@ build:
 run:
 	rm -Rf work/build
 	mkdir -p work
-	$(DOCKER_RUN) -u $(shell id -u):$(shell id -g) -v $(CURDIR)/work:/work -w /work $(DOCKER_TAG) /build-plugin-mailer.sh
+	$(DOCKER_RUN) -u $(shell id -u):$(shell id -g) -v $(CURDIR)/work:/work -w /work $(DOCKER_TAG) /build-plugins.sh
 
 clean:
 	rm -Rf work
