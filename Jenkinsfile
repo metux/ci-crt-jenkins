@@ -11,7 +11,7 @@ pipeline {
         stage('cirt-jenkins-mini-build') {
             steps {
                 echo 'Building jenkins plugin builder image'
-                sh 'docker build 'jenkins-mini-build -t cirt-jenkins-mini-build'
+                sh 'docker build jenkins-mini-build -t cirt-jenkins-mini-build'
             }
         }
         stage('cirt-jenkins-plugins') {
