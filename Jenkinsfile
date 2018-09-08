@@ -18,6 +18,7 @@ pipeline {
             steps {
                 echo 'Building jenkins plugins'
                 sh 'cd jenkins-mini-build && make run'
+                echo 'Extracting built plugins'
                 sh 'find *.hpi'
                 stash includes: 'jenkins-mini-build/work/plugins', name: 'jenkins-plugins'
             }
