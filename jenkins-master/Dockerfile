@@ -16,6 +16,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
         openssh-server \
         bash \
         git \
+        make \
         python3-junit.xml \
         python3-sqlalchemy \
         python3-psycopg2 \
@@ -67,7 +68,7 @@ RUN usermod -a -G docker jenkins
 
 ## install python-junitparser
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
-        python-pip python-setuptools
-RUN pip install junitparser
+        python-pip python-setuptools && \
+    pip install junitparser
 
 COPY files/jenkins.yml /etc/jenkins/jenkins.yml
