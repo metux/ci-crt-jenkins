@@ -11,6 +11,9 @@ run:
 	rm -Rf work/build
 	mkdir -p work
 	$(DOCKER_RUN) -u $(shell id -u):$(shell id -g) -v $(CURDIR)/work:/work -w /work $(DOCKER_TAG) /build-plugins.sh
+	echo "listing built plugins"
+	find work/plugins
+	echo "finished"
 
 clean:
 	rm -Rf work
