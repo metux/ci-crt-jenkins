@@ -3,6 +3,7 @@ jenkins:
   numExecutors: 5
   scmCheckoutRetryCount: 2
   mode: NORMAL
+  labelString: docker-host
   clouds:
   - hypervisor:
       hypervisorHost: "localhost"
@@ -38,6 +39,7 @@ jenkins:
         pullStrategy: PULL_NEVER
         pullTimeout: 300
         remoteFs: "/home/jenkins"
+        numExecutors: 5
 
 #  nodes:
 #    - dumb:
