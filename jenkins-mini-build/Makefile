@@ -16,6 +16,8 @@ run:
 	find / -name "*.jpi" || true
 	echo "listing workdir"
 	find $(CURDIR)/work || true
+	echo "scanning dor workdir"
+	find / -name "work"
 	echo "finished"
 
 clean:
