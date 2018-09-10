@@ -17,7 +17,7 @@ run:
 	echo "listing workdir"
 	find $(CURDIR)/work || true
 	echo "scanning dor workdir"
-	find / -name "work"
+	find / -name "work" || true
 	echo "PWD"
 	pwd
 	echo "finished"
