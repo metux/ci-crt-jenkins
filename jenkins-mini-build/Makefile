@@ -22,6 +22,8 @@ run:
 	@pwd
 	@echo "dirlist"
 	ls -la
+	@echo "listing work"
+	ls -la work || true
 	echo "finished"
 
 clean:
