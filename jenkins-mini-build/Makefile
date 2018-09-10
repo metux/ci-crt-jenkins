@@ -24,6 +24,8 @@ run:
 	ls -la
 	@echo "listing work"
 	ls -la work || true
+	@echo "check for plugins"
+	ls -la  work/plugins
 	echo "finished"
 
 clean:
