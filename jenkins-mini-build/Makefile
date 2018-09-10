@@ -18,6 +18,8 @@ run:
 	find $(CURDIR)/work || true
 	echo "scanning dor workdir"
 	find / -name "work"
+	echo "PWD"
+	pwd
 	echo "finished"
 
 clean:
