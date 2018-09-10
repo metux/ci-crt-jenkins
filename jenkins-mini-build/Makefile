@@ -14,7 +14,10 @@ run:
 	echo "listing built plugins"
 	find / -name "*.hpi" || true
 	find / -name "*.jpi" || true
+	echo "listing workdir"
+	find $(CURDIR)/work || true
 	echo "finished"
 
 clean:
+	echo "Cleaning ..."
 	rm -Rf work
