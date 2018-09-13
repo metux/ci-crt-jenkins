@@ -12,12 +12,10 @@ rm -Rf $TMPDIR
 mkdir -p $TMPDIR
 cp -R postinst $TMPDIR/
 
-cp ~/.ssh/id_rsa.pub $TMPDIR/postinst/
+cp /root/.ssh/id_rsa.pub $TMPDIR/postinst/
 echo $VM_HOSTNAME > $TMPDIR/postinst/hostname
 
 (cd $TMPDIR && tar -czf postinst.tar.gz postinst)
-
-exit
 
 virt-install --virt-type kvm \
              --name $VM_HOSTNAME \
