@@ -24,10 +24,6 @@ tar -x -v -z -C/tmp -f /tmp/postinst.tar.gz
 mkdir -p /root/.ssh
 cat /tmp/postinst/id_rsa.pub >> /root/.ssh/authorized_keys
 
-# Install collectd and config.
-#apt-get install -y collectd-core
-#cp /tmp/postinst/collectd.conf /etc/collectd/
-
 # Remove some non-essential packages.
 DEBIAN_FRONTEND=noninteractive apt-get purge -y nano laptop-detect tasksel dictionaries-common emacsen-common iamerican ibritish ienglish-common ispell
 
@@ -37,3 +33,19 @@ DEBIAN_FRONTEND=noninteractive apt-get purge -y nano laptop-detect tasksel dicti
 # Avoid using DHCP-server provided domain name.
 #sed -i 's/#supersede.*/supersede domain-name "dp-net.com";/' /etc/dhcp/dhclient.conf
 
+## needed for CI-RT
+DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jre git python3 python3-virtualenv python3-pip virtualenv sudo
+
+## allow root login
+cp /tmp/postinst/sshd_config /etc/ssh/
+/etc/init.d/ssh restart
+
+## set hostname
+echo "testx86" > /etc/hostname
+hostname testx86
+
+## install labgrid
+mkdir -p /usr/src && \
+ git clone https://github.com/labgrid-project/labgrid /usr/src/labgrid && \
+ virtualenv -p python3 /opt/labgrid && \
+ ( source /opt/labgrid/bin/activate && cd /usr/src/labgrid && pip install -r requirements.txt && python3 setup.py install )

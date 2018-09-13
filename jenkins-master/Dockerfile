@@ -22,9 +22,14 @@ ARG LIBVIRT_PACKAGES=" \
     ebtables \
     file"
 
-## fixme: maybe we dont need virtinst
+ARG DB_PACKAGES="postgresql"
+
+ARG MAIL_PACKAGES="postfix"
+
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
         ${LIBVIRT_PACKAGES} \
+        ${DB_PACKAGES} \
+        ${MAIL_PACKAGES} \
         openssh-client \
         openssh-server \
         bash \
@@ -35,9 +40,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
         python3-psycopg2 \
         python3-numpy \
         python3-pip \
-        postgresql \
-        postfix \
-        virtinst \
         python-pip \
         python-setuptools \
         quilt
@@ -98,5 +100,6 @@ COPY files/qemu.conf           /etc/libvirt/qemu.conf
 COPY files/init.sh             /usr/local/bin/init.sh
 COPY files/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
 COPY files/jenkins.yml         /etc/jenkins/jenkins.yml
+COPY files/virt-hosts          /usr/bin
 
-COPY files/debian /debian
+COPY files/vm-testx86          /vm-testx86
