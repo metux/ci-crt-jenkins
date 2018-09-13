@@ -1,26 +1,29 @@
 jenkins:
   systemMessage: "CI-RT jenkins: https://github.com/metux/ci-rt-jenkins.git"
+# nope, doesnt work :(
   numExecutors: 5
   scmCheckoutRetryCount: 2
   mode: NORMAL
+  # docker-host will be used for building the CI-RT docker images
   labelString: docker-host
   clouds:
   - hypervisor:
       hypervisorHost: "localhost"
       hypervisorSshPort: 22
       hypervisorSystemUrl: "system?no_tty=1"
-      hypervisorType: "QEMU"
-      maxOnlineSlaves: 1
-      useNativeJavaConnection: true
-      username: "nekrad"
+      hypervisorType: "QEMU+SSH"
+      maxOnlineSlaves: 2
+      # the native library doesn't work
+      useNativeJavaConnection: false
+      username: "root"
   - hypervisor:
       hypervisorHost: "localhost"
       hypervisorSshPort: 22
       hypervisorSystemUrl: "system?no_tty=1"
       hypervisorType: "R4D"
       maxOnlineSlaves: 3
-      useNativeJavaConnection: true
-      username: "nekrad"
+      useNativeJavaConnection: false
+      username: "root"
   - docker:
       dockerApi:
         connectTimeout: 60
@@ -39,7 +42,8 @@ jenkins:
         pullStrategy: PULL_NEVER
         pullTimeout: 300
         remoteFs: "/home/jenkins"
-        numExecutors: 5
+# doesnt work
+#        numExecutors: 5
 
 #  nodes:
 #    - dumb:

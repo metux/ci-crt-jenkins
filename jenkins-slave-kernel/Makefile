@@ -3,7 +3,7 @@ DOCKER       ?= docker
 DOCKER_BUILD ?= $(DOCKER) build
 DOCKER_RUN   ?= $(DOCKER) run
 
-DOCKER_TAG            ?= jenkins-slave-kernel
+DOCKER_TAG            ?= cirt-jenkins-slave-kernel
 DOCKER_CONTAINER      ?= jenkins-slave-kernel-1
 
 build:

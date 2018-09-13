@@ -10,8 +10,21 @@ ENV CASC_JENKINS_CONFIG /etc/jenkins
 VOLUME /var/lib/postgreql
 RUN useradd libvirt-qemu
 
+ARG LIBVIRT_PACKAGES=" \
+    libvirt-clients \
+    libvirt-clients \
+    libvirt-daemon \
+    libvirt-daemon-system \
+    virtinst \
+    nmap \
+    qemu \
+    dnsmasq \
+    ebtables \
+    file"
+
 ## fixme: maybe we dont need virtinst
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
+        ${LIBVIRT_PACKAGES} \
         openssh-client \
         openssh-server \
         bash \
@@ -22,10 +35,19 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -
         python3-psycopg2 \
         python3-numpy \
         python3-pip \
-        libvirt-clients \
         postgresql \
         postfix \
-        virtinst
+        virtinst \
+        python-pip \
+        python-setuptools \
+        quilt
+
+## add symlink for ncat to nc
+## FIXME: do NOT install netcat, but nmap (ncat)
+RUN ln -sf /usr/bin/ncat /usr/bin/nc
+
+## install python-junitparser
+RUN pip install junitparser
 
 ## install mailer plugin (locally built)
 RUN install-plugins.sh display-url-api
@@ -55,8 +77,6 @@ RUN install-plugins.sh \
 
 ## FIXME: remove permissive-script-security
 
-ADD files/init.sh /usr/local/bin/init.sh
-COPY files/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/init.sh"]
 
 ## install docker upstream
@@ -66,9 +86,17 @@ RUN curl -fsSL https://get.docker.com/ | sh
 ## give jenkins access to docker
 RUN usermod -a -G docker jenkins
 
-## install python-junitparser
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
-        python-pip python-setuptools && \
-    pip install junitparser
+ADD files/sshd_config /etc/ssh/sshd_config
+RUN chmod u=rw,g=r /etc/ssh/sshd_config
 
-COPY files/jenkins.yml /etc/jenkins/jenkins.yml
+## create ssh key and let root call in to itself
+RUN mkdir -p ~/.ssh && ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+VOLUME /dut
+
+COPY files/qemu.conf           /etc/libvirt/qemu.conf
+COPY files/init.sh             /usr/local/bin/init.sh
+COPY files/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
+COPY files/jenkins.yml         /etc/jenkins/jenkins.yml
+
+COPY files/debian /debian
