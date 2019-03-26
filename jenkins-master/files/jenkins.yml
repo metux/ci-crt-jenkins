@@ -58,9 +58,9 @@ jobs:
       }
 
   - script: >
-      pipelineJob('debkins/bootstrap') {
+      pielineJob('debkins/bootstrap') {
 
-       def repo = 'https://github.com/metux/deb-pkg.git'
+        def repo = 'https://github.com/metux/deb-pkg.git'
 
         triggers {
             scm('H/5 * * * *')

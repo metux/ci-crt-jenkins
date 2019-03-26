@@ -103,3 +103,6 @@ COPY files/jenkins.yml         /etc/jenkins/jenkins.yml
 COPY files/virt-hosts          /usr/bin
 
 COPY files/vm-testx86          /vm-testx86
+
+### FIXME: this should go to slave
+RUN apt-get -y install python-yaml
