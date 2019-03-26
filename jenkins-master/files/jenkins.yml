@@ -7,23 +7,23 @@ jenkins:
   # docker-host will be used for building the CI-RT docker images
   labelString: docker-host
   clouds:
-  - hypervisor:
-      hypervisorHost: "localhost"
-      hypervisorSshPort: 22
-      hypervisorSystemUrl: "system?no_tty=1"
-      hypervisorType: "QEMU+SSH"
-      maxOnlineSlaves: 2
-      # the native library doesn't work
-      useNativeJavaConnection: false
-      username: "root"
-  - hypervisor:
-      hypervisorHost: "localhost"
-      hypervisorSshPort: 22
-      hypervisorSystemUrl: "system?no_tty=1"
-      hypervisorType: "R4D"
-      maxOnlineSlaves: 3
-      useNativeJavaConnection: false
-      username: "root"
+#  - hypervisor:
+#      hypervisorHost: "localhost"
+#      hypervisorSshPort: 22
+#      hypervisorSystemUrl: "system?no_tty=1"
+#      hypervisorType: "QEMU+SSH"
+#      maxOnlineSlaves: 2
+#      # the native library doesn't work
+#      useNativeJavaConnection: false
+#      username: "root"
+#  - hypervisor:
+#      hypervisorHost: "localhost"
+#      hypervisorSshPort: 22
+#      hypervisorSystemUrl: "system?no_tty=1"
+#      hypervisorType: "R4D"
+#      maxOnlineSlaves: 3
+#      useNativeJavaConnection: false
+#      username: "root"
   - docker:
       dockerApi:
         connectTimeout: 60
@@ -52,29 +52,33 @@ jenkins:
 
 jobs:
   - script: >
-      folder('CI-RT') {
-          displayName('CI-RT')
-          description('CI-RT build infrastructure')
+      folder('debkins') {
+          displayName('DebKins')
+          description('Debkins build environment')
       }
 
   - script: >
-      multibranchPipelineJob('CI-RT/test') {
-          branchSources {
-              git {
-                  id = 'cirt-test'
-                  remote('https://github.com/metux/test-description.git')
-              }
-          }
-      }
+      pipelineJob('debkins/bootstrap') {
 
-  - script: >
-      multibranchPipelineJob('CI-RT/jenkins') {
-          branchSources {
+       def repo = 'https://github.com/metux/deb-pkg.git'
+
+        triggers {
+            scm('H/5 * * * *')
+        }
+        description("Debkins: $repo")
+
+        definition {
+          cpsScm {
+            scm {
               git {
-                  id = 'cirt-jenkins'
-                  remote('https://github.com/metux/ci-rt-jenkins.git')
+                remote { url(repo) }
+                branches('debkins', '**/feature*')
+                scriptPath('Jenkinsfile')
+                extensions { }  // required as otherwise it may try to tag the repo, which you may not want
               }
+            }
           }
+        }
       }
 
 unclassified:
