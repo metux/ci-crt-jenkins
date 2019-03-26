@@ -1,9 +1,0 @@
-jenkins-master
-    - libvirt
-	user/group kvm
-	remove /var/cache/libvirt/qemu/capabilities and restart libvirtd
-	install firewalld dnsmasq and restart libvirtd
-	start virtlogd
-
-virsh net-autostart default
-virsh net-start default
