@@ -7,40 +7,39 @@ pipeline {
                 echo 'NOTE: need a running docker installation and gnu make'
             }
         }
-
-        stage('cirt-jenkins-mini-build') {
+        stage('debkins-mini-build') {
             steps {
                 echo 'Building jenkins plugin builder image'
-                sh 'docker build jenkins-mini-build -t cirt-jenkins-mini-build'
+                sh 'docker build debkins-mini-build -t debkins-mini-build'
             }
         }
-        stage('cirt-jenkins-plugins') {
+        stage('debkins-plugins') {
             steps {
                 echo 'Building jenkins plugins'
-                sh 'cd jenkins-mini-build && make run'
+                sh 'cd debkins-mini-build && make run'
                 echo 'Extracting built plugins'
                 sh 'find *.hpi'
-                stash includes: 'jenkins-mini-build/work/plugins', name: 'jenkins-plugins'
+                stash includes: 'debkins-mini-build/work/plugins', name: 'debkins-plugins'
             }
         }
-        stage('cirt-jenkins-master') {
+        stage('debkins-master') {
             steps {
-                unstash 'jenkins-plugins'
+                unstash 'debkins-plugins'
                 echo 'Building jenkins master image'
                 sh 'find -name "*.hpi"'
-                sh 'docker build jenkins-master -t cirt-jenkins-master'
+                sh 'docker build debkins-master -t debkins-master'
             }
         }
-        stage('cirt-jenkins-slave-base') {
+        stage('debkins-slave-base') {
             steps {
                 echo 'Building generic jenkins slave base image'
-                sh 'docker build jenkins-slave-base -t cirt-jenkins-slave-base'
+                sh 'docker build debkins-slave-base -t debkins-slave-base'
             }
         }
-        stage('cirt-jenkins-slave-kernel') {
+        stage('debkins-slave-kernel') {
             steps {
                 echo 'Building CI-RT kernel build slave image'
-                sh 'docker build jenkins-slave-kernel -t cirt-jenkins-slave-kernel'
+                sh 'docker build debkins-slave-kernel -t debkins-slave-kernel'
             }
         }
     }

@@ -1,0 +1,71 @@
+jenkins:
+  systemMessage: "CI-RT jenkins: https://github.com/metux/ci-rt-jenkins.git"
+# nope, doesnt work :(
+  numExecutors: 5
+  scmCheckoutRetryCount: 2
+  mode: NORMAL
+  # docker-host will be used for building the debkins docker images
+  labelString: docker-host
+  clouds:
+  - docker:
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          uri: "unix:///var/run/docker.sock"
+        readTimeout: 60
+      name: "docker"
+#      templates:
+#      - connector:
+#          attach:
+#            user: "jenkins"
+#        dockerTemplateBase:
+#          image: "debkins-slave-kernel"
+#        labelString: "kernel"
+#        name: "DNG kernel build image"
+#        pullStrategy: PULL_NEVER
+#        pullTimeout: 300
+#        remoteFs: "/home/jenkins"
+# doesnt work
+#        numExecutors: 5
+
+jobs:
+  - script: >
+      folder('debkins') {
+          displayName('DebKins')
+          description('Debkins build environment')
+      }
+
+  - script: >
+      pipelineJob('debkins/bootstrap') {
+
+        def repo = 'https://github.com/metux/deb-pkg.git'
+
+        triggers {
+            scm('H/5 * * * *')
+        }
+        description("Debkins: $repo")
+
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote { url(repo) }
+                branches('debkins', '**/feature*')
+                scriptPath('Jenkinsfile')
+                extensions { }  // required as otherwise it may try to tag the repo, which you may not want
+              }
+            }
+          }
+        }
+      }
+
+unclassified:
+  location:
+    adminAddress: "info@metux.net"
+    url: "http://jenkins:8080/"
+
+  mailer:
+    adminAddress: info@metux.net
+    replyToAddress: info@metux.net
+    smtpHost: localhost
+    smtpPort: 25
