@@ -9,37 +9,54 @@ ENV JENKINS_USER admin
 ENV JENKINS_PASS admin
 ENV CASC_JENKINS_CONFIG /etc/jenkins
 
-ARG MAIL_PACKAGES="postfix"
+#ARG MAIL_PACKAGES="postfix"
+ARG MAIL_PACKAGES=""
 
 # these packages are required if the master is also acting as build node
-ARG BUILD_NODE_PACKAGES="make gcc libc6-dev bison flex dpkg-dev apt-utils uuid-runtime"
+ARG BUILD_NODE_PACKAGES="\
+    sudo \
+    make \
+    gcc \
+    libc6-dev \
+    bison \
+    flex \
+    dpkg-dev \
+    apt-utils \
+    uuid-runtime \
+"
 
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install --no-install-recommends -y \
+#        openssh-client \
+#        openssh-server \
+#        python3-junit.xml \
+#        python3-sqlalchemy \
+#        python3-psycopg2 \
+#        python3-numpy \
+#        python3-pip \
+#        python-pip \
+#        python-setuptools \
+
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
         ${MAIL_PACKAGES} \
         ${BUILD_NODE_PACKAGES} \
-        openssh-client \
-        openssh-server \
         bash \
         git \
-        python3-junit.xml \
-        python3-sqlalchemy \
-        python3-psycopg2 \
-        python3-numpy \
-        python3-pip \
-        python-pip \
-        python-setuptools \
-        python-yaml
+        python-yaml \
+        && \
+    apt-get autoremove -y && \
+    apt-get autoclean
 
 ## add symlink for ncat to nc
 ## FIXME: do NOT install netcat, but nmap (ncat)
 RUN ln -sf /usr/bin/ncat /usr/bin/nc
 
 ## install python-junitparser
-RUN pip install junitparser
+# RUN pip install junitparser
 
 ## install mailer plugin (locally built)
 RUN install-plugins.sh display-url-api
-ADD prebuilt/mailer.hpi /usr/share/jenkins/ref/plugins/mailer.jpi
+# ADD prebuilt/mailer.hpi /usr/share/jenkins/ref/plugins/mailer.jpi
 
 RUN install-plugins.sh \
         workflow-api \
@@ -84,6 +101,9 @@ RUN mkdir -p ~/.ssh && ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && cat ~/.ssh/id
 COPY files/init.sh             /usr/local/bin/init.sh
 COPY files/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
 COPY files/jenkins.yml         /etc/jenkins/jenkins.yml
+
+# fixme: these should be replaced
+COPY files/gnupg/*             /root/.gnupg/
 
 # on this volume we store the temporary source trees, shared between jenkins and build containers
 #VOLUME /dck-buildpackage.tmp
