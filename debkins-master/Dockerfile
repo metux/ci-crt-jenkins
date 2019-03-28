@@ -25,6 +25,8 @@ ARG BUILD_NODE_PACKAGES="\
     uuid-runtime \
 "
 
+ARG MASTER_NODE_PACKAGES="bash git python-yaml aptly"
+
 #        openssh-client \
 #        openssh-server \
 #        python3-junit.xml \
@@ -40,9 +42,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install --no-install-recommends -y \
         ${MAIL_PACKAGES} \
         ${BUILD_NODE_PACKAGES} \
-        bash \
-        git \
-        python-yaml \
+        ${MASTER_NODE_PACKAGES} \
         && \
     apt-get autoremove -y && \
     apt-get autoclean

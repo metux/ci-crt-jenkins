@@ -13,15 +13,13 @@ RUN mkdir -p /usr/local/bin
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install --no-install-recommends -y openjdk-8-jdk-headless curl ca-certificates curl maven git && \
+    apt-get install --no-install-recommends -y openjdk-8-jdk-headless curl ca-certificates curl maven git gradle && \
     apt-get autoremove -y
-
-#EXPOSE 22
-#CMD ["/usr/sbin/sshd", "-D"]
 
 ## this the volume for the build output
 VOLUME /output
 
 ADD files/build-plugin-mailer.sh /
 ADD files/build-plugin-libvirt-slave.sh /
+ADd files/build-plugin-aptly-publisher.sh /
 ADD files/build-plugins.sh /
