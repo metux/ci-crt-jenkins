@@ -1,6 +1,6 @@
 
-Dockerized Jenkins environment for CI-RT
------------------------------------------
+Dockerized Jenkins environment for Debkins
+------------------------------------------
 
 * automatically builds docker images for jenkins itself, as well as build nodes
 * automatically provisions jenkins environment
