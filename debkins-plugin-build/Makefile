@@ -2,7 +2,7 @@
 DOCKER       ?= docker
 DOCKER_BUILD ?= $(DOCKER) build
 DOCKER_RUN   ?= $(DOCKER) run
-DOCKER_TAG   ?= debkins-mini-build
+DOCKER_TAG   ?= debkins-plugin-build
 
 build:
 	$(DOCKER_BUILD) . -t $(DOCKER_TAG)

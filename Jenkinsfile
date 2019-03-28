@@ -16,7 +16,7 @@ pipeline {
         stage('debkins-plugins') {
             steps {
                 echo 'Building jenkins plugins'
-                sh 'cd debkins-mini-build && make run'
+                sh 'cd debkins-plugin-build && make run'
                 echo 'Extracting built plugins'
                 sh 'find *.hpi'
                 stash includes: 'debkins-mini-build/work/plugins', name: 'debkins-plugins'
