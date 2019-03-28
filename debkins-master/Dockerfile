@@ -54,38 +54,39 @@ RUN ln -sf /usr/bin/ncat /usr/bin/nc
 ## install python-junitparser
 # RUN pip install junitparser
 
-## install mailer plugin (locally built)
-RUN install-plugins.sh display-url-api
-# ADD prebuilt/mailer.hpi /usr/share/jenkins/ref/plugins/mailer.jpi
-
-RUN install-plugins.sh \
-        workflow-api \
-        pipeline-model-definition \
-        pipeline-utility-steps \
-        build-with-parameters \
-        timestamper \
-        lockable-resources \
-        ssh-slaves \
-        email-ext \
-        warnings \
-        git \
-        configuration-as-code \
-        configuration-as-code-support \
-        job-dsl \
-        jdk-tool \
-        docker-plugin \
-        cloudbees-folder \
-        permissive-script-security \
-        multiple-scms \
-        ${MAILER_PLUGIN_DEPS}
-
-## FIXME: remove permissive-script-security
-
-ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/init.sh"]
-
 ## install docker upstream
 ## FIXME: use dist packages instead
 RUN curl -fsSL https://get.docker.com/ | sh
+
+# plugins that are needed by our jobs
+## FIXME: remove permissive-script-security
+ARG PLUGINS_JOBS="git cloudbees-folder job-dsl multiple-scms permissive-script-security \
+                  envinject chucknorris pipeline-model-definition"
+ARG PLUGINS_CASC="configuration-as-code configuration-as-code-support workflow-cps"
+
+## install mailer plugin (locally built)
+# RUN install-plugins.sh display-url-api
+# ADD prebuilt/mailer.hpi /usr/share/jenkins/ref/plugins/mailer.jpi
+
+# unused plugins
+#       workflow-api \
+#       pipeline-model-definition \
+#       pipeline-utility-steps \
+#       email-ext \
+#       jdk-tool \
+#       ${MAILER_PLUGIN_DEPS}
+#       lockable-resources \
+
+RUN install-plugins.sh \
+        ${PLUGINS_JOBS} \
+        ${PLUGINS_CASC} \
+        build-with-parameters \
+        timestamper \
+        ssh-slaves \
+        warnings \
+        docker-plugin
+
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/init.sh"]
 
 ## give jenkins access to docker
 RUN usermod -a -G docker jenkins
@@ -104,7 +105,3 @@ COPY files/jenkins.yml         /etc/jenkins/jenkins.yml
 
 # fixme: these should be replaced
 COPY files/gnupg/*             /root/.gnupg/
-
-# on this volume we store the temporary source trees, shared between jenkins and build containers
-#VOLUME /dck-buildpackage.tmp
-#ENV DEBKINS_SRC_VOLUME
