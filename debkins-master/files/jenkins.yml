@@ -1,11 +1,5 @@
 jenkins:
-  systemMessage: "CI-RT jenkins: https://github.com/metux/ci-rt-jenkins.git"
 # nope, doesnt work :(
-  numExecutors: 5
-  scmCheckoutRetryCount: 2
-  mode: NORMAL
-  # docker-host will be used for building the debkins docker images
-  labelString: docker-host
   clouds:
   - docker:
       dockerApi:
@@ -25,8 +19,15 @@ jenkins:
 #        pullStrategy: PULL_NEVER
 #        pullTimeout: 300
 #        remoteFs: "/home/jenkins"
-# doesnt work
-#        numExecutors: 5
+  # docker-host will be used for building the debkins docker images
+  labelString: "docker-host"
+  markupFormatter:
+    rawHtml:
+      disableSyntaxHighlighting: false
+  mode: NORMAL
+  numExecutors: 5
+  scmCheckoutRetryCount: 2
+  systemMessage: "metux Debkins CI"
 
 jobs:
   - script: >

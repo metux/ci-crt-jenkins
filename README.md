@@ -37,7 +37,7 @@ Dockerfiles
 * jenkins-slave-base:
     * minimal (devuan-based) jenkins slave image
     * uses prebuilt jenkins-slave binary
-* jenkins-mini-build:
+* jenkins-jenkins-build:
     * minimal build environment for jenkins plugins (not a jenkins slave)
 
 2DO:

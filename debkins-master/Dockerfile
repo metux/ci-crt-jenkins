@@ -67,6 +67,7 @@ ARG PLUGINS_CASC="configuration-as-code configuration-as-code-support workflow-c
 ## install mailer plugin (locally built)
 # RUN install-plugins.sh display-url-api
 # ADD prebuilt/mailer.hpi /usr/share/jenkins/ref/plugins/mailer.jpi
+ADD prebuilt/aptly-publisher.hpi /usr/share/jenkins/ref/plugins/aptly-publisher.jpi
 
 # unused plugins
 #       workflow-api \

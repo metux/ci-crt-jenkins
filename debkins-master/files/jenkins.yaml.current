@@ -1,0 +1,50 @@
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  clouds:
+  - docker:
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          uri: "unix:///var/run/docker.sock"
+        readTimeout: 60
+      name: "docker"
+  disableRememberMe: false
+  labelString: "docker-host"
+  markupFormatter:
+    rawHtml:
+      disableSyntaxHighlighting: false
+  mode: NORMAL
+  numExecutors: 5
+  primaryView:
+    all:
+      name: "all"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: false
+  scmCheckoutRetryCount: 2
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+  slaveAgentPort: 50000
+  systemMessage: "CI-RT jenkins: https://github.com/metux/ci-rt-jenkins.git"
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+unclassified:
+  location:
+    adminAddress: "info@metux.net"
+    url: "http://jenkins:8080/"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
