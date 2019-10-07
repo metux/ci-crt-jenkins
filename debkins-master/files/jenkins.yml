@@ -40,6 +40,12 @@ jobs:
       pipelineJob('debkins/bootstrap') {
 
         def repo = 'https://github.com/metux/deb-pkg.git'
+        def branch = 'debkins'
+
+        parameters {
+            stringParam('debkins_git_url', repo)
+            stringParam('debkins_git_branch', branch)
+        }
 
         triggers {
             scm('H/5 * * * *')
